@@ -72,11 +72,54 @@ conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit
 
 #### 4.3 Install other Python dependencies
 Install the remaining Python dependencies using pip:
+
 ```bash
 pip install . --user
 ```
 
+### 5. Training of the neural network
+The neural networks can be trained using the `trainer_pl.py` script. 
+Here, we make use of the PyTorch Lightning framework (https://www.pytorchlightning.ai/).
+```bash
+python scripts/nn_training/trainer_pl.py
+```
+
+### 6. Proprioception
+Based on the trained neural networks, inference can be run to estimate the shape of the robot.
+For simulated datasets:
+
+```bash
+python scripts/inference/infer_simulated_dataset.py
+```
+
+For experimental datasets:
+
+```bash
+python scripts/inference/infer_experimental_dataset.py
+```
+
+### 7. Rendering of the inferred shape sequence
+The inferred shape sequence can be rendered using the `visualize_inference.py` script:
+
+```bash
+python scripts/visualization/visualize_inference.py
+```
+
 ## Important notes
+
 ### Datasets
+
 #### Simulated datasets
+The simulated datasets can be found in the `datasets/analytical_simulation` folder.
+
 #### Experimental datasets
+
+### Scripts
+Below, we will provide a brief description of most important scripts in the `scripts` folder.
+- `scripts/simulated_datasets/gen_simulated_dataset.py`: Generates a simulated dataset using [Magpylib](https://magpylib.readthedocs.io/en/latest/).
+- `scripts/experimental_dataset/process_motion_capture_data.py`: Parses the motion capture dataset, runs inverse kinematics, evaluates the magnet sensor kinematics and saves the results to a csv file.
+- `scripts/experimental_dataset/merge_sensor_and_motion_capture_data.py`: Merges the motion capture data with the sensor data while first temporarily aligning the data by identifying the initial expansion of the segment.
+- `scripts/nn_training/trainer_pl.py`: This script is used to train the neural network.
+- `scripts/inference/infer_simulated_dataset.py`: This script is used to infer the shape of the robot for a simulated dataset.
+- `scripts/inference/infer_experimental_dataset.py`: This script is used to infer the shape of the robot for an experimental dataset.
+- `scripts/visualization/visualize_inference.py`: This script is used to visualize the inferred shape sequence. It uses [Pyvista](https://docs.pyvista.org/) to render the shape of the robot according to the ground-truth (gt) and estimated (hat) configuration.
