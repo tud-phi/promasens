@@ -69,4 +69,4 @@ if __name__ == "__main__":
     # 3D visualization with pyvista
     visualizer = PyvistaSceneVisualizer(robot_kinematics=robot_kinematics, B_func=simulator.getB,
                                         **SIMULATION_ROBOT_PARAMS, show_silicone=True, enable_shadows=False)
-    visualizer.run(q_gt=q, filepath="scene_snapshots/analytical_simulation_three_segment.pdf")
+    visualizer.run(q_gt=q, filepath="../../scene_snapshots/analytical_simulation_three_segment.pdf")

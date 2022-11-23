@@ -36,9 +36,6 @@ evaluated_db = False
 
 dataset_name = '2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_2022-05-02_T2_P0_R1'
 
-# init random seed
-seed = 2
-
 #dataset that is used
 #df = pd.read_csv(f'Merged_databases/{dataset_name}_test.csv')
 

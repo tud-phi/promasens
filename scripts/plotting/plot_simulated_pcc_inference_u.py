@@ -1,4 +1,5 @@
 import pandas as pd
+import pathlib
 import torch
 from matplotlib.ticker import FormatStrFormatter
 
@@ -33,7 +34,9 @@ dtype = torch.float32
 "set evaluated_db to True if it is not evaluated before" 
 evaluated_db = False
 
-dataset_name = 'inference_sensor_failure'
+dataset_name = 'analytical_db_n_b-3_n_s-9_n_m-3_T0_n_t-120000_rand_phi_off_rand_psi_s_rand_d_s_r' \
+               '_to_' \
+               'analytical_db_n_b-3_n_s-12_n_m-3_T3_n_t-400_inference_sensor_failure'
 
 num_segments = 3
 # init random seed
@@ -271,6 +274,7 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
+    pathlib.Path("plots").mkdir(exist_ok=True)
     plt.savefig(f"plots/{dataset_name}_size_{figsize}_u.pdf")
     print("done")
     

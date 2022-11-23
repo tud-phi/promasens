@@ -5,6 +5,7 @@ from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import interactive
+
 interactive(True)
 fontsize_axis = 20
 fontsize_label_di = 25
@@ -20,8 +21,6 @@ plt.rcParams.update({
     "font.size":fontsize_axis,
     })
 
-
-
 device ='cpu'
 dtype = torch.float32
 
@@ -34,13 +33,11 @@ dtype = torch.float32
 "set evaluated_db to True if it is not evaluated before" 
 evaluated_db = False
 
-dataset_name = "2022-02-21_T3_6x_5V_P0_R1_200mb_to_2022-02-21_T2_6x_5V_P0_R1_200mb"
-#dataset_name = '2022-02-21_spiral2_480s_start_200mb_max_425mb_f0_20'
-# init random seed
-seed = 2
+#dataset_name = '2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_2022-05-02_T2_P0_R1'
+dataset_name = '2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1'
 
 #dataset that is used
-#df = pd.read_csv(f'merged_databases/{dataset_name}_test.csv')
+#df = pd.read_csv(f'Merged_databases/{dataset_name}_test.csv')
 
 #num_sensors = len(df["sensor_id"].unique())
 
@@ -158,8 +155,13 @@ def mean_std_band():
 
 def plot_q_di_gt_and_hat(df_samples_gt,  df_samples_mean_std, d_i_list):
     
-    fig, ax = plt.subplots(figsize=figsize)
-                      
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=figsize,
+                           gridspec_kw={
+                           'width_ratios': [4, 1],
+                           'wspace': 0.25,
+                           'hspace': 0.8}) 
+    fig.set_figheight(4)
+    fig.set_figwidth(20)
     sample_rate = 40
     
     for d_i in d_i_list:
@@ -174,21 +176,32 @@ def plot_q_di_gt_and_hat(df_samples_gt,  df_samples_mean_std, d_i_list):
             line_color = 'tomato'
             band_color = 'coral'              
             
-        ax.plot(df_samples_gt["time_idx"]/sample_rate, df_samples_gt[f"q_gt_{d_i}"],gt_line_color, linewidth=2, linestyle='-',  label=f"q_gt_{d_i}")   
-        ax.plot(df_samples_gt["time_idx"]/sample_rate, df_samples_mean_std[f"mean_{d_i}"],line_color,linewidth=2,  linestyle='--', label=f"q_hat_{d_i}_GD", dashes=(5, 4))
-           
-        ax.fill_between(df_samples_gt["time_idx"]/sample_rate,df_samples_mean_std[f"mean_{d_i}"]-df_samples_mean_std[f"std_{d_i}"], df_samples_mean_std[f"mean_{d_i}"]+df_samples_mean_std[f"std_{d_i}"], alpha=0.4, edgecolor=band_color, facecolor=band_color)    
+        ax[0].plot(df_samples_gt["time_idx"]/sample_rate, df_samples_gt[f"q_gt_{d_i}"],gt_line_color, linewidth=2, linestyle='-',  label=f"q_gt_{d_i}")   
+        ax[0].plot(df_samples_gt["time_idx"]/sample_rate, df_samples_mean_std[f"mean_{d_i}"],line_color,linewidth=2,  linestyle='--', label=f"q_hat_{d_i}_GD", dashes=(5, 4))
+        
+        ax[1].plot(df_samples_gt["time_idx"]/sample_rate, df_samples_gt[f"q_gt_{d_i}"],gt_line_color, linewidth=2, linestyle='-',  label=f"q_gt_{d_i}")   
+        ax[1].plot(df_samples_gt["time_idx"]/sample_rate, df_samples_mean_std[f"mean_{d_i}"],line_color,linewidth=2,  linestyle='--', label=f"q_hat_{d_i}_GD", dashes=(5, 4))
+        
+        ax[0].fill_between(df_samples_gt["time_idx"]/sample_rate,df_samples_mean_std[f"mean_{d_i}"]-df_samples_mean_std[f"std_{d_i}"], df_samples_mean_std[f"mean_{d_i}"]+df_samples_mean_std[f"std_{d_i}"], alpha=0.4, edgecolor=band_color, facecolor=band_color)    
+        ax[1].fill_between(df_samples_gt["time_idx"]/sample_rate,df_samples_mean_std[f"mean_{d_i}"]-df_samples_mean_std[f"std_{d_i}"], df_samples_mean_std[f"mean_{d_i}"]+df_samples_mean_std[f"std_{d_i}"], alpha=0.4, edgecolor=band_color, facecolor=band_color)    
     
-    ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))  
-    
-    ax.set_xlabel('Time\:[s]', fontsize=fontsize_label_time)
-    ax.set_ylabel('$q$\:[m]', fontsize=fontsize_label_di)
+    ax[1].set_xticks(np.linspace(18,22,3))
 
-    ax.grid()
-    ax.legend(('$\Delta_x$','$\hat{\Delta}_x$','$\Delta_y$','$\hat{\Delta}_y$'), fontsize=15, loc='upper right')
-
-    ax.set_xlim(0,len(df_samples_gt["time_idx"])/sample_rate)
+    ax[0].yaxis.set_major_formatter(FormatStrFormatter('%.3f'))  
+    ax[1].yaxis.set_major_formatter(FormatStrFormatter('%.3f'))  
     
+    ax[0].set_xlabel('Time\:[s]', fontsize=fontsize_label_time)
+    ax[0].set_ylabel('$q$\:[m]', fontsize=fontsize_label_di)
+    ax[1].set_xlabel('Time\:[s]', fontsize=fontsize_label_time)
+    ax[1].set_ylabel('$q$\:[m]', fontsize=fontsize_label_di) 
+
+    ax[0].grid()
+    ax[1].grid()
+    ax[0].legend(('$\Delta_x$','$\hat{\Delta}_x$','$\Delta_y$','$\hat{\Delta}_y$'), fontsize=15, loc='upper right')
+
+    ax[0].set_xlim(0,len(df_samples_gt["time_idx"])/sample_rate)
+    ax[1].set_xlim(18,22)
+        
     return fig
 
 if __name__ == "__main__":
@@ -204,8 +217,11 @@ if __name__ == "__main__":
     #df_samples_end_to_end = pd.read_csv(f'end_to_end/plot/{dataset_name}_samples_end_to_end_plot.csv')
 
     fig_dx =  plot_q_di_gt_and_hat(df_samples_gt, df_samples_mean_std, ['dx','dy'])
-
-    plt.tight_layout()
+    #fig_dy =  plot_q_di_gt_and_hat(df_samples_end_to_end, df_samples_mean_std, 'dy')
+    #fig_dL =  plot_q_di_gt_and_hat(df_samples_end_to_end, df_samples_mean_std, 'dL')
+    
+    plt.subplots_adjust(left=None, bottom=0.18, right=None, top=None)
+     
     plt.show()
     plt.savefig(f"plots/{dataset_name}_size_{figsize}.pdf")
     print("done")

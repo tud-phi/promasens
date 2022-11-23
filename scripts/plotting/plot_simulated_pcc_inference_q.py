@@ -1,4 +1,5 @@
 import pandas as pd
+import pathlib
 import torch
 from matplotlib.ticker import FormatStrFormatter
 
@@ -33,7 +34,9 @@ dtype = torch.float32
 "set evaluated_db to True if it is not evaluated before" 
 evaluated_db = False
 
-dataset_name = 'inference_sensor_failure'
+dataset_name = 'analytical_db_n_b-3_n_s-9_n_m-3_T0_n_t-120000_rand_phi_off_rand_psi_s_rand_d_s_r' \
+               '_to_' \
+               'analytical_db_n_b-3_n_s-12_n_m-3_T3_n_t-400_inference_sensor_failure'
 
 num_segments = 3
 # init random seed
@@ -190,15 +193,15 @@ def plot_q_di_gt_and_hat(df_samples_gt,  df_samples_mean_std_0,df_samples_mean_s
    
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.f'))  
     
-    ax.set_xlabel('Time\:[s]', fontsize=fontsize_label_time)
-    ax.set_ylabel('$q$\:[mm]', fontsize=fontsize_label_di)
+    ax.set_xlabel(r'Time\:[s]', fontsize=fontsize_label_time)
+    ax.set_ylabel(r'$q$\:[mm]', fontsize=fontsize_label_di)
 
     ax.grid()    
     #ax.legend(('$\Delta_{x,1}$','$\hat{\Delta}_{x,1}$','$\Delta_{y,1}$','$\hat{\Delta}_{y,1}$','$\delta_{L,1}$','$\hat{\delta}_{L,1}$','$\Delta_{x,2}$','$\hat{\Delta}_{x,2}$','$\Delta_{y,2}$','$\hat{\Delta}_{y,2}$','$\delta_{L,2}$','$\hat{\delta}_{L,2}$','$\Delta_{x,3}$','$\hat{\Delta}_{x,3}$','$\Delta_{y,3}$','$\hat{\Delta}_{y,3}$','$\delta_{L,3}$','$\hat{\delta}_{L,3}$')
     #          , ncol=3, fontsize=15, loc='center left', bbox_to_anchor=(1, 0.5))    
     
     ax.legend(ncol=1, fontsize=12.55, loc='center left', bbox_to_anchor=(1, 0.5))  
-    ax.set_xlim(0,len(df_samples_gt["time_idx"])/sample_rate)
+    ax.set_xlim(0, len(df_samples_gt["time_idx"])/sample_rate)
     
     return fig
 
@@ -218,6 +221,7 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
+    pathlib.Path("plots").mkdir(exist_ok=True)
     plt.savefig(f"plots/{dataset_name}_size_{figsize}_q.pdf")
     print("done")
     
