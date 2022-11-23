@@ -1,6 +1,6 @@
 import numpy as np
 
-from . import plt
+from promasens.visualization import plt
 
 
 def plot_sensor_predictions(sample_rate: float, u_gt_ts: np.array, u_hat_ts: np.array = None):

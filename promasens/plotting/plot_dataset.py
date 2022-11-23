@@ -1,6 +1,6 @@
 import numpy as np
 
-from . import plt
+from promasens.visualization import plt
 
 
 def plot_dataset(sample_rate: float, q_gt_ts: np.array, u_gt_ts: np.array):

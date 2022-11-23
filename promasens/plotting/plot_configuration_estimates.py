@@ -1,6 +1,6 @@
 import numpy as np
 
-from . import plt
+from promasens.visualization import plt
 
 
 def plot_cc_configuration_estimates(sample_rate: float, q_gt_ts: np.array, q_hat_ts: np.array = None):

@@ -6,14 +6,14 @@ from promasens.enums.joint_nn_mode import JointNNMode
 from promasens.modules.proprioceptor import Proprioceptor
 from promasens.utils.df_to_tensor_utils import database_df_to_tensors, tensors_to_inference_df
 from promasens.utils.load_predictor import load_predictor
-from promasens.visualization.plot_configuration_estimates import (
+from promasens.plotting.plot_configuration_estimates import (
     plot_cc_configuration_estimates, plot_ac_configuration_estimates
 )
-from promasens.visualization.plot_sensor_predictions import plot_sensor_predictions
+from promasens.plotting.plot_sensor_predictions import plot_sensor_predictions
 
 # kinematic parameters of robot
 from promasens.constants.constants import (
-    SIMULATION_ROBOT_PARAMS, SIMULATION_AFFINE_CURVATURE_SEGMENT_PARAMS
+    SIMULATION_ROBOT_PARAMS
 )
 
 kinematic_params = SIMULATION_ROBOT_PARAMS
