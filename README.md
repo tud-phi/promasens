@@ -110,9 +110,17 @@ python scripts/visualization/visualize_inference.py
 ### Datasets
 
 #### Simulated datasets
-The simulated datasets can be found in the `datasets/analytical_simulation` folder.
+The simulated datasets can be found in the `datasets/analytical_simulation` folder. 
+They were generated using the [Magpylib](https://magpylib.readthedocs.io/en/latest/) simulator, which is based on analytical solutions to the magnetic field equations.
+Datasets simulating an affine curvature robot, have a _ac_ prefix in their filename.  
+All remaining datasets involve the simulation of a Piecewise Constant Curvature (PCC) soft robot.
 
 #### Experimental datasets
+The `datasets/experimental` folder contains the experimental datasets in a variety of processing stages:
+- `raw_motion_capture_data`: The motion capture data of the tip pose of the robot segment as recorded by the OptiTrack system at 40 Hz.
+- `processed_motion_capture_data`: This datasets contains the ground-truth robot configurations obtained by inverse kinematics and also the magnet sensor kinematics evaluated on the ground-truth configurations.
+- `sensor_data`: The raw data of the magnetoresistive sensors as recorded by the Arduino at 40 Hz.
+- `merged_data`: This dataset contains the merged `processed_motion_capture_data` and `sensor_data` datasets. For this, both datasets are aligned in time.
 
 ### Scripts
 Below, we will provide a brief description of most important scripts in the `scripts` folder.

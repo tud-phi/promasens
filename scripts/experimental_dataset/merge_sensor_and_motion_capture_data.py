@@ -8,12 +8,12 @@ plt.close("all")
 
 dataset_name = '2022-05-02_T3_90deg_P0_R1'
 # dataset_name = '2022-02-21_spiral2_480s_start_200mb_max_425mb_f0_20'
-path_to_mcs_data = f'MCS_databases/{dataset_name}_q.csv'
-path_to_sensor_data = f'sensor_databases/{dataset_name}_SV.csv'
+path_to_mcs_data = f'datasets/experimental/processed_motion_capture_data/{dataset_name}_q.csv'
+path_to_sensor_data = f'datasets/experimental/sensor_data/{dataset_name}_SV.csv'
 
-path_to_merged_data = f'merged_databases/{dataset_name}.csv'
-path_to_merged_data_train = f'merged_databases/{dataset_name}_train.csv'
-path_to_merged_data_test = f'merged_databases/{dataset_name}_test.csv'
+path_to_merged_data = f'datasets/experimental/merged_data/{dataset_name}.csv'
+path_to_merged_data_train = f'datasets/experimental/merged_data/{dataset_name}_train.csv'
+path_to_merged_data_test = f'datasets/experimental/merged_data/{dataset_name}_test.csv'
 
 test_split = 0.3
 if dataset_name in ['2022-02-21_spiral2_480s_start_200mb_max_425mb_f0_20',

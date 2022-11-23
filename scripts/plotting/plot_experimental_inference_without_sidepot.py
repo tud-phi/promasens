@@ -26,20 +26,11 @@ device ='cpu'
 dtype = torch.float32
 
 ##############################################################################
-"""Define all variables for plotting loss landscape"""
-#define neural network architecture
-#from end_to_end.neural_networks.arch_R_plot import NetNiet_E2E
-#from src.modules.neural_networks.arch_N import NetNiet
 
 "set evaluated_db to True if it is not evaluated before" 
 evaluated_db = False
 
 dataset_name = '2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_2022-05-02_T2_P0_R1'
-
-#dataset that is used
-#df = pd.read_csv(f'Merged_databases/{dataset_name}_test.csv')
-
-#num_sensors = len(df["sensor_id"].unique())
 
 def mean_std_band():
     

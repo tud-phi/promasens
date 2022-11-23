@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     dataset_name = f'2022-05-02_T3_P{phi_off_deg}_R1'
     # dataset_name = f'2022-02-11_GBN_180s_320mb_REF_False_P{phi_off_deg}_R1'
-    dataset_path = f'MCS_databases/{dataset_name}_Quat.csv'
+    dataset_path = f'datasets/experimental/processed_motion_capture_data/{dataset_name}_Quat.csv'
 
     # check whether the dataset is a raw extract from Motive, or if it is already processed
     is_motive_dataset = False
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     sensor_magnet_kinematics = SensorMagnetKinematics(robot_kinematics)
 
     # Call the function using the TorchScript interpreter
-    with open(f'MCS_databases/{dataset_name}_q.csv', 'w', newline="",
+    with open(f'datasets/experimental/processed_motion_capture_data/{dataset_name}_q.csv', 'w', newline="",
               encoding='UTF8') as f:  # csv file can be found in the same file as this script is in
 
         header = ['sensor_id', 'q_dx_0', 'q_dy_0', 'q_dL_0', 'lambda', 'd_0', 'alpha_0', 'beta_0', 'theta_0']

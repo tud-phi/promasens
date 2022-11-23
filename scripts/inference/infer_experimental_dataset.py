@@ -27,7 +27,7 @@ seed = 0
 np.random.seed(seed)
 
 # dataset that is used
-df = pd.read_csv(f'merged_databases/{test_dataset_path}.csv').dropna(axis=0)
+df = pd.read_csv(f'datasets/experimental/merged_data/{test_dataset_path}.csv').dropna(axis=0)
 
 # parse to old df format
 df = df.rename(columns={'q_dx_0': 'q_dx', 'q_dy_0': 'q_dy', 'q_dL_0': 'q_dL'})

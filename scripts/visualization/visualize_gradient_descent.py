@@ -52,7 +52,7 @@ else:
     # dataset_name = f"2022-02-2{dataset_name}1_spiral2_480s_start_200mb_max_425mb_f0_20"
     train_dataset_name = f"2022-05-02_FLOWER_SLOW_NOMINAL_P{int(phi_off_deg)}_R1"
     test_dataset_name = f"2022-05-02_FLOWER_SLOW_NOMINAL_P{int(phi_off_deg)}_R1"
-    test_dataset_path = f"merged_databases/{test_dataset_name}_test.csv"
+    test_dataset_path = f"datasets/experimental/merged_data/{test_dataset_name}_test.csv"
 
     # gradient descent settings
     max_num_iterations = 20

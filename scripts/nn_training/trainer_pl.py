@@ -38,8 +38,8 @@ if dataset_type == 'analytical':
 else:
     train_dataset_name = f"2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1"
     test_dataset_name = train_dataset_name
-    train_dataset_path = f"merged_databases/{train_dataset_name}_train.csv"
-    test_dataset_path = f"merged_databases/{test_dataset_name}_test.csv"
+    train_dataset_path = f"datasets/experimental/merged_data/{train_dataset_name}_train.csv"
+    test_dataset_path = f"datasets/experimental/merged_data/{test_dataset_name}_test.csv"
 
 train_df = pd.read_csv(train_dataset_path).dropna(axis=0)
 if dataset_type == "real-world":
