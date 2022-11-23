@@ -36,7 +36,7 @@ else:
 
 test_dataset_path = f"{test_dataset_name}"
 # dataset that is used
-df = pd.read_csv(f'analytical_databases/{test_dataset_path}.csv').dropna(axis=0)
+df = pd.read_csv(f'datasets/analytical_simulation/{test_dataset_path}.csv').dropna(axis=0)
 num_sensors = len(df["sensor_id"].unique())
 
 # init random seed

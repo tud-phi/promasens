@@ -7,7 +7,7 @@ from promasens.plotting.plot_dataset import plot_dataset
 
 dataset_name = f"analytical_db_n_b-1_n_s-3_n_m-1_T3_n_t-400"
 # dataset that is used
-df = pd.read_csv(f'analytical_databases/{dataset_name}.csv').dropna(axis=0)
+df = pd.read_csv(f'datasets/analytical_simulation/{dataset_name}.csv').dropna(axis=0)
 num_sensors = len(df["sensor_id"].unique())
 
 sample_rate = 40

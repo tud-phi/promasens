@@ -26,7 +26,7 @@ else:
     inference_name = "2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_" \
                      "2022-05-02_T3_90deg_P0_R1_inference_optim_q_dx_q_dy_seed_0"
 
-df = pd.read_csv(f"analytical_databases/{inference_name}.csv")
+df = pd.read_csv(f"datasets/analytical_simulation/{inference_name}.csv")
 q_gt_ts, _, _ = database_df_to_tensors(df)
 
 robot_kinematics = RobotKinematics(**kinematic_params)

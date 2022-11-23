@@ -33,8 +33,8 @@ if dataset_type == 'analytical':
     else:
         raise NotImplementedError
     
-    train_dataset_path = f"analytical_databases/{train_dataset_name}.csv"
-    test_dataset_path = f"analytical_databases/{test_dataset_name}.csv"
+    train_dataset_path = f"datasets/analytical_simulation/{train_dataset_name}.csv"
+    test_dataset_path = f"datasets/analytical_simulation/{test_dataset_name}.csv"
 else:
     train_dataset_name = f"2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1"
     test_dataset_name = train_dataset_name

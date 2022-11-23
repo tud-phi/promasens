@@ -25,7 +25,7 @@ if dataset_type == "analytical":
     train_dataset_name = f"analytical_db_n_b-{num_segments}_n_s-{num_sensors}_n_m-{num_magnets}_T0_n_t-120000_" \
                          f"rand_phi_off_rand_psi_s_rand_d_s_r"
     test_dataset_name = f"analytical_db_n_b-{num_segments}_n_s-{num_sensors}_n_m-{num_magnets}_T3_n_t-400"
-    test_dataset_path = f"analytical_databases/{test_dataset_name}.csv"
+    test_dataset_path = f"datasets/analytical_simulation/{test_dataset_name}.csv"
 
     # gradient descent settings
     max_num_iterations = 20
