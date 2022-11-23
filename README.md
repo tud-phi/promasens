@@ -122,6 +122,14 @@ The `datasets/experimental` folder contains the experimental datasets in a varie
 - `sensor_data`: The raw data of the magnetoresistive sensors as recorded by the Arduino at 40 Hz.
 - `merged_data`: This dataset contains the merged `processed_motion_capture_data` and `sensor_data` datasets. For this, both datasets are aligned in time.
 
+### Promasens package
+The `promasens` package contains the following modules:
+- `kinematics`: Contains the kinematic model of the robot: either Constant Curvature (CC), or Affine Curvature (AC). The `SegmentKinematics` class computes the pose of each magnet and sensor using the chosen kinematic parametrization. The `RobotKinematics` class then chains together multiple segments and computes all poses in the inertial / robot base frame. Finally, `SensorMagnetKinematics` computes the proposed parametrization `xi` spatially relating a sensor to each magnet. 
+- `neural_network`: Contains the neural network architecture for predicting sensor measurements based on the magnet sensor kinematics `xi`.
+- `motion_planning`: Contains several trajectory types in configuration space for a CC and AC segment.
+- `simulation`: Contains magnetic field simulations based on [Magpylib](https://magpylib.readthedocs.io/en/latest/) for analytical solutions and [Netgen / NGSolve](https://ngsolve.org) for FEM computations.
+- `visualization`: Contains functions for visualizing the loss landscape and rendering the soft robot, the sensors, magnets and magnetic field using PyVista.
+
 ### Scripts
 Below, we will provide a brief description of most important scripts in the `scripts` folder.
 - `scripts/simulated_datasets/gen_simulated_dataset.py`: Generates a simulated dataset using [Magpylib](https://magpylib.readthedocs.io/en/latest/).
