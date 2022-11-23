@@ -109,7 +109,7 @@ if __name__ == "__main__":
                                  proprioceptor.u_hat_ts, proprioceptor.rmse_u_ts,
                                  kinematic_parametrization=kinematic_parametrization)
     print(df)
-    df.to_csv(f"inference_data/{inference_filename}", index=False)
+    df.to_csv(f"datasets/inference/{inference_filename}", index=False)
 
     RMSE_q = torch.sqrt(torch.mean((proprioceptor.q_gt_ts - proprioceptor.q_hat_ts) ** 2, dim=0))
     rel_RMSE_q = RMSE_q / (q_max - q_min)

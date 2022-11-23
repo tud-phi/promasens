@@ -269,7 +269,7 @@ def plot_q_hat():
         df_samples = pd.DataFrame(samples)
 
     df_samples = pd.DataFrame(samples)
-    inference_filepath = f"inference_data/{inference_filename}"
+    inference_filepath = f"datasets/inference/{inference_filename}"
     print("Saving inference data to file:", inference_filepath)
     df_samples.to_csv(inference_filepath)
 

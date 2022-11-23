@@ -43,9 +43,9 @@ dataset_name = '2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1_to_2022-05-02_FLOWER_SLOW_N
 
 def mean_std_band():
     
-    df_samples_seed_0 = pd.read_csv(f'inference_data/{dataset_name}_inference_optim_q_dx_q_dy_seed_0.csv')
-    df_samples_seed_1 = pd.read_csv(f'inference_data/{dataset_name}_inference_optim_q_dx_q_dy_seed_1.csv')
-    df_samples_seed_2 = pd.read_csv(f'inference_data/{dataset_name}_inference_optim_q_dx_q_dy_seed_2.csv')
+    df_samples_seed_0 = pd.read_csv(f'datasets/inference/{dataset_name}_inference_optim_q_dx_q_dy_seed_0.csv')
+    df_samples_seed_1 = pd.read_csv(f'datasets/inference/{dataset_name}_inference_optim_q_dx_q_dy_seed_1.csv')
+    df_samples_seed_2 = pd.read_csv(f'datasets/inference/{dataset_name}_inference_optim_q_dx_q_dy_seed_2.csv')
     
     samples = []
     
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     #    df_samples_end_to_end = plot_neural_network_predictions_end_to_end()
   
     df_samples_mean_std = mean_std_band()
-    df_samples_gt = pd.read_csv(f'inference_data/{dataset_name}_inference_optim_q_dx_q_dy_seed_0.csv')
+    df_samples_gt = pd.read_csv(f'datasets/inference/{dataset_name}_inference_optim_q_dx_q_dy_seed_0.csv')
     
     #df_samples_end_to_end = pd.read_csv(f'end_to_end/plot/{dataset_name}_samples_end_to_end_plot.csv')
 

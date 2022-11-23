@@ -41,7 +41,7 @@ if __name__ == "__main__":
     q_gt_ts, q_hat_ts = [], []
     u_gt_ts, u_hat_ts = [], []
     for seed in seeds:
-        df_seed = pd.read_csv(f'inference_data/{dataset_name}_inference_seed_{seed}.csv')
+        df_seed = pd.read_csv(f'datasets/inference/{dataset_name}_inference_seed_{seed}.csv')
 
         q_gt_ts_seed, q_hat_ts_seed, u_gt_ts_seed, u_hat_ts_seed, rmse_u_ts_seed = inference_df_to_tensors(
             df=df_seed,

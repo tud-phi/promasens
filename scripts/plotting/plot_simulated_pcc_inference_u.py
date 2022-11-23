@@ -44,9 +44,9 @@ seed = 2
 
 def mean_std_band():
     
-    df_samples_seed_0 = pd.read_csv(f'inference_data/{dataset_name}_seed_0.csv')
-    df_samples_seed_1 = pd.read_csv(f'inference_data/{dataset_name}_seed_1.csv')
-    df_samples_seed_2 = pd.read_csv(f'inference_data/{dataset_name}_seed_2.csv')
+    df_samples_seed_0 = pd.read_csv(f'datasets/inference/{dataset_name}_seed_0.csv')
+    df_samples_seed_1 = pd.read_csv(f'datasets/inference/{dataset_name}_seed_1.csv')
+    df_samples_seed_2 = pd.read_csv(f'datasets/inference/{dataset_name}_seed_2.csv')
     
   
     for segm in num_segments:
@@ -266,7 +266,7 @@ if __name__ == "__main__":
     #    df_samples_end_to_end = plot_neural_network_predictions_end_to_end()
   
     num_segments = [i for i in range(num_segments)]
-    df_samples_gt = pd.read_csv(f'inference_data/{dataset_name}_seed_0.csv')
+    df_samples_gt = pd.read_csv(f'datasets/inference/{dataset_name}_seed_0.csv')
     
     df_samples_mean_std_0,df_samples_mean_std_1,df_samples_mean_std_2 = mean_std_band()   
     
