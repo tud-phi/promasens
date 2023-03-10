@@ -128,7 +128,7 @@ setup(
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=["imageio-ffmpeg", "magpylib >= 4.0.0", "matplotlib", "numpy",
                       "pandas", "plotly", "progressbar2", "pycairo",
-                      "torch",
+                      "torch", "tqdm",
                       "pytorch-lightning == 1.6.5",  # pytorch-lightning 1.7.x leads to different learning results
                       "pytorch3d@git+https://github.com/facebookresearch/pytorch3d.git@stable",
                       "pyvista", "scipy", "seaborn", "sympy", "termcolor", "torch", "torchquad"],  # Optional
