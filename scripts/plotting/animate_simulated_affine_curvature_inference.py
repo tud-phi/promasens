@@ -131,6 +131,7 @@ if __name__ == "__main__":
         bbox_to_anchor=(1.005, 1.03),
         # bbox_to_anchor=(1.15, 1.04), outside of plot
     )
+    ax1.grid(True)
 
     kappa0_gt_mean_line, = ax2.plot(
         [], [],
@@ -223,6 +224,7 @@ if __name__ == "__main__":
         loc="upper right",
         prop={'size': 8},
     )
+    ax2.grid(True)
 
     plt.tight_layout()
 

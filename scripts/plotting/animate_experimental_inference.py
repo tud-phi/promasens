@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     ax1.set_title("Sensor measurements")
     # ax1.set_xlabel(r"Time [s]")
-    ax1.set_ylabel(r"$u$ [mT]")
+    ax1.set_ylabel(r"$u$ [mV]")
     ax1_handles, ax1_labels = ax1.get_legend_handles_labels()
     ax1.legend(
         handles=ax1_handles[:u_gt_ts_mean.shape[-1]],
@@ -131,6 +131,7 @@ if __name__ == "__main__":
         bbox_to_anchor=(1.005, 1.03),
         # bbox_to_anchor=(1.15, 1.04), outside of plot
     )
+    ax1.grid(True)
 
     Delta_x_gt_mean_line, = ax2.plot(
         [], [],
@@ -206,6 +207,7 @@ if __name__ == "__main__":
         loc="upper right",
         prop={'size': 8},
     )
+    ax2.grid(True)
 
     plt.tight_layout()
 
