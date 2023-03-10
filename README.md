@@ -10,7 +10,7 @@ We validate our approach in experiments involving one soft segment containing a 
 During the experiments, we achieve mean relative errors of 4.5%.
 
 ## Paper and Link
-Our work is currently under review with Soft Matter.
+Our work is has been published by the Royal Society of Chemistry in Soft Matter.
 
 Please cite our paper if you use our method in your work:
 ````bibtex
