@@ -14,13 +14,15 @@ Our work is currently under review with Soft Matter.
 
 Please cite our paper if you use our method in your work:
 ````bibtex
-@article{baaij2022learning,
-  title={Learning 3D Shape Proprioception for Continuum Soft Robots with Multiple Magnetic Sensors},
-  author={Baaij, Thomas and Klein Holkenborg, Marn and Stölzle, Maximilian and van der Tuin, Daan and Naaktgeboren, Jonatan and Babuska, Robert and Della Santina, Cosimo},
+@article{baaij2023learning,
+  title={Learning 3D shape proprioception for continuum soft robots with multiple magnetic sensors},
+  author={Baaij, Thomas and Holkenborg, Marn Klein and St{\"o}lzle, Maximilian and van der Tuin, Daan and Naaktgeboren, Jonatan and Babu{\v{s}}ka, Robert and Della Santina, Cosimo},
   journal={Soft Matter},
-  year={2022},
+  volume={19},
+  number={1},
+  pages={44--56},
+  year={2023},
   publisher={Royal Society of Chemistry}
-  notes={Under review}
 }
 ````
 
