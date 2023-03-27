@@ -302,7 +302,8 @@ if __name__ == "__main__":
     )
 
     movie_writer = animation.FFMpegWriter(fps=sample_rate)
-    ani.save(f"videos/experiments/{dataset_name}_plot.mp4")
+    video_folder = "pcc_simulations" if dataset_type == "simulated" else "experiments"
+    ani.save(f"videos/{video_folder}/{dataset_name}_plot.mp4")
 
     plt.show()
     pbar.close()
