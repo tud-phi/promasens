@@ -16,9 +16,18 @@ plt.rcParams.update({
     "font.serif": ["Computer Modern Roman"],
 })
 
-dataset_name = "2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1" \
-               "_to_" \
-               "2022-05-02_T3_90deg_P0_R1_inference_optim_q_dx_q_dy"
+dataset_type = "simulated"  # "simulated" or "experimental"
+if dataset_type == "simulated":
+    dataset_name = "analytical_db_n_b-3_n_s-9_n_m-3_T0_n_t-120000_rand_phi_off_rand_psi_s_rand_d_s_r" \
+                   "_to_" \
+                   "analytical_db_n_b-3_n_s-12_n_m-3_T3_n_t-400_inference_sensor_failure"
+    legend_size = 6
+else:
+    dataset_name = "2022-05-02_FLOWER_SLOW_NOMINAL_P0_R1" \
+                   "_to_" \
+                   "2022-05-02_T3_90deg_P0_R1_inference_optim_q_dx_q_dy"
+    legend_size = 8
+
 sample_rate = 40
 step_skip = 2
 
@@ -72,9 +81,10 @@ if __name__ == "__main__":
     u_hat_ts_stdev = u_hat_ts.std(dim=0)
 
     time = np.arange(q_gt_ts_mean.shape[0]) / sample_rate
+    num_segments = q_gt_ts_mean.shape[-2]
     num_sensors = u_gt_ts_mean.shape[-1]
 
-    fig, axes = plt.subplots(2, 1, num="Experimental inference", figsize=(6, 4.5), dpi=200)
+    fig, axes = plt.subplots(2, 1, num="PCC inference", figsize=(6, 4.5), dpi=200)
     ax1 = axes[0]
     ax2 = axes[1]
 
@@ -84,7 +94,7 @@ if __name__ == "__main__":
             [],
             [],
             color=colors[j]["gt"],
-            label=r"$u_" + str(j+1) + "$"
+            label=r"$u_{" + str(j+1) + "}$"
         )
         u_gt_lines.append(line)
 
@@ -96,7 +106,7 @@ if __name__ == "__main__":
             [],
             linestyle="--",
             color=colors[j]["hat_mean"],
-            label=r"$\hat{u}_" + str(j + 1) + "$"
+            label=r"$\hat{u}_{" + str(j + 1) + "}$"
         )
         u_hat_mean_lines.append(line)
 
@@ -112,82 +122,90 @@ if __name__ == "__main__":
         )
         u_hat_stdev_collections.append(col)
 
-    u_range = u_gt_ts.max() - u_gt_ts.min()
+    u_gt_not_nan = u_gt_ts[~torch.isnan(u_gt_ts)]  # remove NaN measurements
+    u_range = u_gt_not_nan.max() - u_gt_not_nan.min()
     ax1.set_xlim([0, time[-1]])
     ax1.set_ylim([
-        u_gt_ts.min() - 0.1 * u_range,
-        u_gt_ts.max() + 0.1 * u_range
+        u_gt_not_nan.min() - 0.1 * u_range,
+        u_gt_not_nan.max() + 0.1 * u_range
     ])
 
     ax1.set_title("Sensor measurements")
     # ax1.set_xlabel(r"Time [s]")
-    ax1.set_ylabel(r"$u$ [mV]")
+    ax1_ylabel = r"$u$ [mV]" if dataset_type == "experimental" else r"$u$ [mT]"
+    ax1.set_ylabel(ax1_ylabel)
     ax1_handles, ax1_labels = ax1.get_legend_handles_labels()
     ax1.legend(
         handles=ax1_handles[:u_gt_ts_mean.shape[-1]],
         labels=ax1_labels[:u_gt_ts_mean.shape[-1]],
         loc="upper right",
-        prop={'size': 8},
+        prop={'size': legend_size},
         bbox_to_anchor=(1.005, 1.03),
         # bbox_to_anchor=(1.15, 1.04), outside of plot
     )
     ax1.grid(True)
 
-    Delta_x_gt_mean_line, = ax2.plot(
-        [], [],
-        color=colors[0]["gt"],
-        label=r"$\Delta_x$ [mm]"
-    )
-    Delta_y_gt_mean_line, = ax2.plot(
-        [], [],
-        color=colors[1]["gt"],
-        label=r"$\Delta_y$ [mm]"
-    )
-    dL_gt_mean_line, = ax2.plot(
-        [], [],
-        color=colors[2]["gt"],
-        label=r"$\delta L$ [mm]"
-    )
-    q_gt_mean_lines = [Delta_x_gt_mean_line, Delta_y_gt_mean_line, dL_gt_mean_line]
+    q_gt_mean_lines = []
+    for i in range(num_segments):
+        Delta_x_gt_mean_line, = ax2.plot(
+            [], [],
+            color=colors[3 * i]["gt"],
+            label=r"$\Delta_x$"
+        )
+        Delta_y_gt_mean_line, = ax2.plot(
+            [], [],
+            color=colors[3 * i + 1]["gt"],
+            label=r"$\Delta_y$"
+        )
+        dL_gt_mean_line, = ax2.plot(
+            [], [],
+            color=colors[3 * i + 2]["gt"],
+            label=r"$\delta L$"
+        )
+        q_gt_mean_lines.extend([Delta_x_gt_mean_line, Delta_y_gt_mean_line, dL_gt_mean_line])
 
     plt.gca().set_prop_cycle(None)
-    Delta_x_hat_mean_line, = ax2.plot(
-        [], [],
-        linestyle="--",
-        color=colors[0]["hat_mean"],
-        label=r"$\hat{\Delta}_x L$ [mm]"
-    )
-    Delta_y_hat_mean_line, = ax2.plot(
-        [], [],
-        linestyle="--",
-        color=colors[1]["hat_mean"],
-        label=r"$\hat{\Delta}_y L$ [mm]"
-    )
-    dL_hat_mean_line, = ax2.plot(
-        [], [],
-        linestyle="--",
-        color=colors[2]["hat_mean"],
-        label=r"$\hat{\delta} L$ [mm]"
-    )
-    q_hat_mean_lines = [Delta_x_hat_mean_line, Delta_y_hat_mean_line, dL_hat_mean_line]
+    q_hat_mean_lines = []
+    for i in range(num_segments):
+        Delta_x_hat_mean_line, = ax2.plot(
+            [], [],
+            linestyle="--",
+            color=colors[3 * i]["hat_mean"],
+            label=r"$\hat{\Delta}_{x," + str(i + 1) + "} L$ [mm]"
+        )
+        Delta_y_hat_mean_line, = ax2.plot(
+            [], [],
+            linestyle="--",
+            color=colors[3 * i + 1]["hat_mean"],
+            label=r"$\hat{\Delta}_{y," + str(i + 1) + "} L$ [mm]"
+        )
+        dL_hat_mean_line, = ax2.plot(
+            [], [],
+            linestyle="--",
+            color=colors[3 * i + 2]["hat_mean"],
+            label=r"$\hat{\delta}_{" + str(i + 1) + "} L$ [mm]"
+        )
+        q_hat_mean_lines.extend([Delta_x_hat_mean_line, Delta_y_hat_mean_line, dL_hat_mean_line])
 
     plt.gca().set_prop_cycle(None)
-    Delta_x_hat_stdev_col = ax2.fill_between(
-        [], [], [],
-        alpha=alpha_error_band,
-        color=colors[0]["hat_std"],
-    )
-    Delta_y_hat_stdev_col = ax2.fill_between(
-        [], [], [],
-        alpha=alpha_error_band,
-        color=colors[1]["hat_std"],
-    )
-    dL_hat_stdev_col = ax2.fill_between(
-        [], [], [],
-        alpha=alpha_error_band,
-        color=colors[2]["hat_std"],
-    )
-    q_hat_stdev_cols = [Delta_x_hat_stdev_col, Delta_y_hat_stdev_col, dL_hat_stdev_col]
+    q_hat_stdev_cols = []
+    for i in range(num_segments):
+        Delta_x_hat_stdev_col = ax2.fill_between(
+            [], [], [],
+            alpha=alpha_error_band,
+            color=colors[3 * i]["hat_std"],
+        )
+        Delta_y_hat_stdev_col = ax2.fill_between(
+            [], [], [],
+            alpha=alpha_error_band,
+            color=colors[3 * i + 1]["hat_std"],
+        )
+        dL_hat_stdev_col = ax2.fill_between(
+            [], [], [],
+            alpha=alpha_error_band,
+            color=colors[3 * i + 2]["hat_std"],
+        )
+        q_hat_stdev_cols.extend([Delta_x_hat_stdev_col, Delta_y_hat_stdev_col, dL_hat_stdev_col])
 
     q_gt_ts_mean_for_lim = q_gt_ts_mean.clone() * 1e3
     q_range = q_gt_ts_mean_for_lim.max() - q_gt_ts_mean_for_lim.min()
@@ -199,13 +217,13 @@ if __name__ == "__main__":
 
     ax2.set_title("Configuration")
     ax2.set_xlabel(r"Time [s]")
-    ax2.set_ylabel(r"$q$")
+    ax2.set_ylabel(r"$q$ [mm]")
     ax2_handles, ax2_labels = ax2.get_legend_handles_labels()
     ax2.legend(
-        handles=ax2_handles[:q_gt_ts_mean.shape[-1]],
-        labels=ax2_labels[:q_gt_ts_mean.shape[-1]],
+        handles=ax2_handles[:len(q_gt_mean_lines)],
+        labels=ax2_labels[:len(q_gt_mean_lines)],
         loc="upper right",
-        prop={'size': 8},
+        prop={'size': legend_size},
     )
     ax2.grid(True)
 
@@ -233,40 +251,41 @@ if __name__ == "__main__":
             )
             u_hat_stdev_collections[j] = col
 
-        Delta_x_gt_mean_line.set_data(time[:time_idx], q_gt_ts_mean[:time_idx, 0, 0] * 1e3)
-        Delta_y_gt_mean_line.set_data(time[:time_idx], q_gt_ts_mean[:time_idx, 0, 1] * 1e3)
-        dL_gt_mean_line.set_data(time[:time_idx], q_gt_ts_mean[:time_idx, 0, 2] * 1e3)
+        for i in range(num_segments):
+            q_gt_mean_lines[3 * i].set_data(time[:time_idx], q_gt_ts_mean[:time_idx, i, 0] * 1e3)
+            q_gt_mean_lines[3 * i + 1].set_data(time[:time_idx], q_gt_ts_mean[:time_idx, i, 1] * 1e3)
+            q_gt_mean_lines[3 * i + 2].set_data(time[:time_idx], q_gt_ts_mean[:time_idx, i, 2] * 1e3)
 
-        Delta_x_hat_mean_line.set_data(time[:time_idx], q_hat_ts_mean[:time_idx, 0, 0] * 1e3)
-        Delta_y_hat_mean_line.set_data(time[:time_idx], q_hat_ts_mean[:time_idx, 0, 1] * 1e3)
-        dL_hat_mean_line.set_data(time[:time_idx], q_hat_ts_mean[:time_idx, 0, 2] * 1e3)
+            q_hat_mean_lines[3 * i].set_data(time[:time_idx], q_hat_ts_mean[:time_idx, i, 0] * 1e3)
+            q_hat_mean_lines[3 * i + 1].set_data(time[:time_idx], q_hat_ts_mean[:time_idx, i, 1] * 1e3)
+            q_hat_mean_lines[3 * i + 2].set_data(time[:time_idx], q_hat_ts_mean[:time_idx, i, 2] * 1e3)
 
-        q_hat_stdev_cols[0].remove()
-        q_hat_stdev_cols[0] = ax2.fill_between(
-            time[:time_idx],
-            (q_hat_ts_mean[:time_idx, 0, 0] - q_hat_ts_stdev[:time_idx, 0, 0]) * 1e3,
-            (q_hat_ts_mean[:time_idx, 0, 0] + q_hat_ts_stdev[:time_idx, 0, 0]) * 1e3,
-            alpha=alpha_error_band,
-            color=colors[0]["hat_std"],
-        )
+            q_hat_stdev_cols[3 * i].remove()
+            q_hat_stdev_cols[3 * i] = ax2.fill_between(
+                time[:time_idx],
+                (q_hat_ts_mean[:time_idx, i, 0] - q_hat_ts_stdev[:time_idx, i, 0]) * 1e3,
+                (q_hat_ts_mean[:time_idx, i, 0] + q_hat_ts_stdev[:time_idx, i, 0]) * 1e3,
+                alpha=alpha_error_band,
+                color=colors[3 * i]["hat_std"],
+            )
 
-        q_hat_stdev_cols[1].remove()
-        q_hat_stdev_cols[1] = ax2.fill_between(
-            time[:time_idx],
-            (q_hat_ts_mean[:time_idx, 0, 1] - q_hat_ts_stdev[:time_idx, 0, 1]) * 1e3,
-            (q_hat_ts_mean[:time_idx, 0, 1] + q_hat_ts_stdev[:time_idx, 0, 1]) * 1e3,
-            alpha=alpha_error_band,
-            color=colors[1]["hat_std"],
-        )
+            q_hat_stdev_cols[3 * i + 1].remove()
+            q_hat_stdev_cols[3 * i + 1] = ax2.fill_between(
+                time[:time_idx],
+                (q_hat_ts_mean[:time_idx, i, 1] - q_hat_ts_stdev[:time_idx, i, 1]) * 1e3,
+                (q_hat_ts_mean[:time_idx, i, 1] + q_hat_ts_stdev[:time_idx, i, 1]) * 1e3,
+                alpha=alpha_error_band,
+                color=colors[3 * i + 1]["hat_std"],
+            )
 
-        q_hat_stdev_cols[2].remove()
-        q_hat_stdev_cols[2] = ax2.fill_between(
-            time[:time_idx],
-            (q_hat_ts_mean[:time_idx, 0, 2] - q_hat_ts_stdev[:time_idx, 0, 2]) * 1e3,
-            (q_hat_ts_mean[:time_idx, 0, 2] + q_hat_ts_stdev[:time_idx, 0, 2]) * 1e3,
-            alpha=alpha_error_band,
-            color=colors[2]["hat_std"],
-        )
+            q_hat_stdev_cols[3 * i + 2].remove()
+            q_hat_stdev_cols[3 * i + 2] = ax2.fill_between(
+                time[:time_idx],
+                (q_hat_ts_mean[:time_idx, i, 2] - q_hat_ts_stdev[:time_idx, i, 2]) * 1e3,
+                (q_hat_ts_mean[:time_idx, i, 2] + q_hat_ts_stdev[:time_idx, i, 2]) * 1e3,
+                alpha=alpha_error_band,
+                color=colors[3 * i + 2]["hat_std"],
+            )
 
         lines = (
                 u_gt_lines + u_hat_mean_lines + u_hat_stdev_collections
